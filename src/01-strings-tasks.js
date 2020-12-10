@@ -18,8 +18,8 @@
  *   'aa',''    => 'aa'
  *   '',  'bb'  => 'bb'
  */
-function concatenateStrings(/* value1, value2 */) {
-  throw new Error('Not implemented');
+function concatenateStrings(firstStr, secondStr) {
+  return firstStr + secondStr;
 }
 
 
@@ -34,8 +34,8 @@ function concatenateStrings(/* value1, value2 */) {
  *   'b'     => 1
  *   ''      => 0
  */
-function getStringLength(/* value */) {
-  throw new Error('Not implemented');
+function getStringLength(str) {
+  return str.length;
 }
 
 /**
@@ -51,8 +51,8 @@ function getStringLength(/* value */) {
  *   'John','Doe'      => 'Hello, John Doe!'
  *   'Chuck','Norris'  => 'Hello, Chuck Norris!'
  */
-function getStringFromTemplate(/* firstName, lastName */) {
-  throw new Error('Not implemented');
+function getStringFromTemplate(firstName, lastName) {
+  return `Hello, ${firstName} ${lastName}!`;
 }
 
 /**
@@ -65,8 +65,8 @@ function getStringFromTemplate(/* firstName, lastName */) {
  *   'Hello, John Doe!' => 'John Doe'
  *   'Hello, Chuck Norris!' => 'Chuck Norris'
  */
-function extractNameFromTemplate(/* value */) {
-  throw new Error('Not implemented');
+function extractNameFromTemplate(greeting) {
+  return greeting.slice(7, -1);
 }
 
 
@@ -80,8 +80,8 @@ function extractNameFromTemplate(/* value */) {
  *   'John Doe'  => 'J'
  *   'cat'       => 'c'
  */
-function getFirstChar(/* value */) {
-  throw new Error('Not implemented');
+function getFirstChar(str) {
+  return str[0];
 }
 
 /**
@@ -95,8 +95,8 @@ function getFirstChar(/* value */) {
  *   'cat'              => 'cat'
  *   '\tHello, World! ' => 'Hello, World!'
  */
-function removeLeadingAndTrailingWhitespaces(/* value */) {
-  throw new Error('Not implemented');
+function removeLeadingAndTrailingWhitespaces(str) {
+  return str.trim();
 }
 
 /**
@@ -110,8 +110,8 @@ function removeLeadingAndTrailingWhitespaces(/* value */) {
  *   'A', 5  => 'AAAAA'
  *   'cat', 3 => 'catcatcat'
  */
-function repeatString(/* value, count */) {
-  throw new Error('Not implemented');
+function repeatString(substr, count) {
+  return substr.repeat(count);
 }
 
 /**
@@ -126,8 +126,9 @@ function repeatString(/* value, count */) {
  *   'I like legends', 'end' => 'I like legs',
  *   'ABABAB','BA' => 'ABAB'
  */
-function removeFirstOccurrences(/* str, value */) {
-  throw new Error('Not implemented');
+function removeFirstOccurrences(str, value) {
+  const startIndex = str.indexOf(value);
+  return str.slice(0, startIndex) + str.slice(startIndex + value.length);
 }
 
 /**
@@ -141,8 +142,8 @@ function removeFirstOccurrences(/* str, value */) {
  *   '<span>' => 'span'
  *   '<a>' => 'a'
  */
-function unbracketTag(/* str */) {
-  throw new Error('Not implemented');
+function unbracketTag(str) {
+  return str.slice(1, -1);
 }
 
 
@@ -156,8 +157,8 @@ function unbracketTag(/* str */) {
  *   'Thunderstruck' => 'THUNDERSTRUCK'
  *  'abcdefghijklmnopqrstuvwxyz' => 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
  */
-function convertToUpperCase(/* str */) {
-  throw new Error('Not implemented');
+function convertToUpperCase(str) {
+  return str.toUpperCase();
 }
 
 /**
@@ -175,8 +176,8 @@ function convertToUpperCase(/* str */) {
  *   ],
  *   'info@gmail.com' => ['info@gmail.com']
  */
-function extractEmails(/* str */) {
-  throw new Error('Not implemented');
+function extractEmails(str) {
+  return str.split(';');
 }
 
 /**
@@ -202,8 +203,30 @@ function extractEmails(/* str */) {
  *             '└──────────┘\n'
  *
  */
-function getRectangleString(/* width, height */) {
-  throw new Error('Not implemented');
+function getRectangleString(width, height) {
+  let res = '';
+  for (let i = 1; i <= height; i += 1) {
+    for (let j = 1; j <= width; j += 1) {
+      if (j === 1 && i === 1) {
+        res += '┌';
+      } else if (j === width && i === 1) {
+        res += '┐\n';
+      } else if (j === 1 && i === height) {
+        res += '└';
+      } else if (j === width && i === height) {
+        res += '┘\n';
+      } else if (i === 1 || i === height) {
+        res += '─';
+      } else if (j === 1) {
+        res += '│';
+      } else if (j === width) {
+        res += '│\n';
+      } else {
+        res += ' ';
+      }
+    }
+  }
+  return res;
 }
 
 
@@ -223,8 +246,26 @@ function getRectangleString(/* width, height */) {
  *    => 'NOPQRSTUVWXYZABCDEFGHIJKLMnopqrstuvwxyzabcdefghijklm'
  *
  */
-function encodeToRot13(/* str */) {
-  throw new Error('Not implemented');
+function encodeToRot13(str) {
+  function replacer(match) {
+    const shift = 13;
+    let charCode = match.charCodeAt(0);
+    if (charCode <= 90) { // Заглавные
+      charCode += shift;
+      if (charCode > 90) {
+        charCode = 64 + (charCode % 90);
+      }
+    } else { // Строчные
+      charCode += shift;
+      if (charCode > 122) {
+        charCode = 96 + (charCode % 122);
+      }
+    }
+    return String.fromCharCode(charCode);
+  }
+
+  const encodeStr = str.replace(/[a-zA-Z]/g, replacer);
+  return encodeStr;
 }
 
 /**
@@ -240,8 +281,9 @@ function encodeToRot13(/* str */) {
  *   isString('test') => true
  *   isString(new String('test')) => true
  */
-function isString(/* value */) {
-  throw new Error('Not implemented');
+function isString(value) {
+  if (!value) return false;
+  return typeof value.valueOf() === 'string';
 }
 
 
@@ -269,8 +311,57 @@ function isString(/* value */) {
  *   'Q♠' => 50
  *   'K♠' => 51
  */
-function getCardId(/* value */) {
-  throw new Error('Not implemented');
+function getCardId(value) {
+  let val;
+  let mul;
+  let num;
+  let must;
+  if (value.length === 3) {
+    num = value.slice(0, -1);
+    must = value.slice(-1);
+  } else {
+    num = value.slice(0, 1);
+    must = value.slice(-1);
+  }
+  switch (num) {
+    case 'A':
+      val = 0;
+      break;
+
+    case 'J':
+      val = 10;
+      break;
+
+    case 'Q':
+      val = 11;
+      break;
+
+    case 'K':
+      val = 12;
+      break;
+
+    default:
+      val = parseInt(num, 10) - 1;
+      break;
+  }
+  switch (must) {
+    case '♣':
+      mul = 0;
+      break;
+
+    case '♦':
+      mul = 1;
+      break;
+
+    case '♥':
+      mul = 2;
+      break;
+
+    default:
+      mul = 3;
+      break;
+  }
+  return mul * 13 + val;
 }
 
 
