@@ -123,10 +123,11 @@ function timeSpanToString(startDate, endDate) {
  */
 function angleBetweenClockHands(date) {
   const h = date.getUTCHours() >= 12 ? date.getUTCHours() - 12 : date.getUTCHours();
-  const m = date.getUTCMinutes() / 5;
-  const radAngle = (Math.abs(m - h) * 30 * Math.PI) / 180;
+  const hourDeg = ((360 / 12) * h) + ((30 / 60) * date.getUTCMinutes());
+  const minDeg = (360 / 60) * date.getUTCMinutes();
+  const diff = (Math.abs(hourDeg - minDeg) * Math.PI) / 180;
 
-  return radAngle > 4 ? radAngle - Math.PI : radAngle;
+  return diff > 4 ? diff - Math.PI : diff;
 }
 
 
